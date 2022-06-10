@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coin Contracts Manager</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <style>
+        .container {
+            padding: 1rem;
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <header class="pb-3">
+            <h1>Coin Contracts Manager</h1>
+            <p>
+                On this page you can deploy your own ERC20 coin to Ammer Chain and manage it after.
+            </p>
+            <!-- <div>
+                <button class="btn btn-warning m-1 text-light">Connect <b>Metamask</b> (desktop)</button>
+                <button class="btn btn-info m-1 text-light">Use <b>WalletConnect</b> (mobile)</button>
+            </div> -->
+            <hr />
+        </header>
+
+        <div class="card p-3 my-4 mx-4">
+            <h2 class="pb-2">Deploy Coin</h2>
+            <div>
+                <!-- <div class="row">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Choose Coin Logo (for Trustody)</label>
+                        <input class="form-control" type="file" id="formFile" />
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label for="exampleInputEmail1" class="form-label">Name</label>
+                        <input id="name" placeholder="Ammer Coin" type="text" class="form-control" />
+                    </div>
+                    <div class="mb-3 col">
+                        <label for="exampleInputPassword1" class="form-label">Symbol</label>
+                        <input id="symbol" placeholder="AMC" type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="px-3">
+                        <label for="exampleInputPassword1" class="form-label">Initial Supply (will be sent to deployer's
+                            address)</label>
+                        <input id="emission" placeholder="1000" type="number" class="form-control" />
+                    </div>
+                </div>
+                <div class="p-2 row px-3">
+                    <div class="mb-3 form-check col">
+                        <input id="burnable" type="checkbox" class="form-check-input" id="exampleCheck1" />
+                        <label class="form-check-label" for="exampleCheck1">Burnable</label>
+                    </div>
+                    <div class="mb-3 form-check col">
+                        <input id="mintable" type="checkbox" class="form-check-input" id="exampleCheck1" />
+                        <label class="form-check-label" for="exampleCheck1">Mintable</label>
+                    </div>
+                </div>
+
+                <button id="deploy" type="submit" class="btn btn-primary">
+                    Deploy Contract
+                </button>
+            </div>
+
+            <hr>
+
+            <div id="deployedCoins">
+
+            </div>
+        </div>
+
+        <div class="card p-3 my-4 mx-4 mt-5">
+            <h2 class="pb-2">Manage Coin</h2>
+            <div id="manage">
+                <div class="mb-3 row">
+                    <div class="px-3">
+                        <label for="exampleInputPassword1" class="form-label">Address of ERC20 Coin (which you want to
+                            manage)</label>
+                        <div class="input-group">
+                            <input id="loadAddress" type="text" placeholder="0x000000" class="form-control" />
+                            <button id="load" class="btn btn-primary" type="button">
+                                Load
+                            </button>
+                        </div>
+                        <!-- <div class="mt-2">
+                            <button class="btn btn-sm btn-danger m-1">Delete from Trustody <b>Prod</b></button>
+                            <button class="btn btn-sm btn-success m-1">Save to Trustody <b>Demo</b></button>
+                            <button class="btn btn-sm btn-warning m-1 text-light">Add coin to <b>Metamask</b></button> 
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div id="loadedCoin" class="mt-4" action="">
+
+            </div>
+        </div>
+
+        <footer class="pt-3">
+            <hr />
+            <p>
+                Made with 💛 by <a href="https://ammer.tech">Ammer.Tech</a>. <br />
+                <span class="text-muted">Check out <a href="https://ammer.network">Ammer Chain</a> ;)</span>
+            </p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+    <script>var clipboard = new ClipboardJS('.btn');</script>
+    <script src="erc20.js"></script>
+    <script src="metamask.js"></script>
+    <script src="trustody.js"></script>
+    <script>
+        document.getElementById("deploy").addEventListener(
+            "click",
+            async (e) => {
+                if (connected()) {
+                    let coin = new ERC20(
+                        document.getElementById("name").value,
+                        document.getElementById("symbol").value,
+                        document.getElementById("emission").value,
+                        document.getElementById("mintable").checked,
+                        document.getElementById("burnable").checked
+                    );
+                    await coin.compile();
+                    await coin.deploy().then((deployed) => {
+                        let element = `
+                        <div class="p-1">
+                            <label for="a${deployed.address}" class="form-label">Deployed: <code>${deployed.name}</code></label>
+                            <div class="input-group">
+                                <input id="a${deployed.address}" type="text" readonly value="${deployed.address}" class="form-control" />
+                                <button class="btn btn-primary" type="button" data-clipboard-target="#a${deployed.address}">
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="mt-2">
+                                <!-- <button class="btn btn-sm btn-danger m-1">Save to Trustody <b>Prod</b></button>
+                                <button class="btn btn-sm btn-success m-1">Save to Trustody <b>Demo</b></button>
+                                <button target="${deployed.address}" class="btn btn-sm btn-warning m-1 text-light">Add coin to <b>Metamask</b></button> -->
+                            </div>
+                        </div>
+                        `
+                        document.getElementById('deployedCoins').innerHTML = document.getElementById('deployedCoins').innerHTML + element
+                        addCoinToMetamask(deployed)
+                    });
+                }
+            },
+            true
+        );
+
+        let loaded;
+        document.getElementById("load").addEventListener(
+            "click",
+            async (e) => {
+                if (connected()) {
+                    loaded = await loadERC20(document.getElementById("loadAddress").value);
+
+                    let element = `
+                    <h3 class="fs-4">
+                        ${loaded.name} (${loaded.symbol})
+                    </h3>
+                    <p>
+                        <span class="badge rounded-pill text-bg-light"><a href="https://ammer.network/account/${loaded.owner}">${loaded.owner}</a> owner</span>
+                        <span class="badge rounded-pill text-bg-light">${loaded.supply} supply</span>
+                    </p>
+                    <!-- <div class="my-3">
+                        <label for="exampleInputEmail1" class="form-label">Update Logo (in Trustody)</label>
+                        <div class="input-group">
+                            <input type="text" placeholder="0x000000" class="form-control" />
+                            <button class="btn btn-primary" type="button">
+                                Update
+                            </button>
+                        </div>
+                    </div> -->
+                    <div class="my-3">
+                        <label for="exampleInputEmail1" class="form-label">Transfer Ownership to address (it will be able to
+                            manage coin)</label>
+                        <div class="input-group">
+                            <input id="transferAddress" type="text" placeholder="0x000000" class="form-control" />
+                            <button id="transferButton" class="btn btn-primary" type="button">
+                                Transfer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <label for="exampleInputEmail1" class="form-label">Mint Coins (to your address)</label>
+                        <div class="input-group">
+                            <input id="mintAmount" type="number" placeholder="1000" class="form-control" />
+                            <button id="mintButton" class="btn btn-primary" type="button">
+                                Mint
+                            </button>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <label for="exampleInputEmail1" class="form-label">Burn Coins (it will burn coins from your
+                            address)</label>
+                        <div class="input-group">
+                            <input id="burnAmount" type="number" placeholder="1000" class="form-control" />
+                            <button id="burnButton" class="btn btn-primary" type="button">
+                                Burn
+                            </button>
+                        </div>
+                    </div>
+                    `
+
+                    document.getElementById('loadedCoin').innerHTML = element
+                }
+
+                document.getElementById("transferButton").addEventListener(
+                    "click",
+                    (e) => {
+                        if (connected()) {
+                            let address = document.getElementById("transferAddress").value;
+                            loaded.transferOwnership(address);
+                        }
+                    }
+                )
+
+                document.getElementById("mintButton").addEventListener(
+                    "click",
+                    (e) => {
+                        if (connected()) {
+                            let amount = document.getElementById("mintAmount").value;
+                            loaded.mint(amount);
+                        }
+                    }
+                )
+
+                document.getElementById("burnButton").addEventListener(
+                    "click",
+                    (e) => {
+                        if (connected()) {
+                            let amount = document.getElementById("burnAmount").value;
+                            loaded.burn(amount);
+                        }
+                    }
+                )
+            }
+        )
+    </script>
+</body>
+
+</html>
