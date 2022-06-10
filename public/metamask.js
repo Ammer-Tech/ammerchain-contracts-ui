@@ -10,6 +10,8 @@ const connected = () => {
         window.ethereum.enable();
         window.web3.currentProvider.enable()
 
+        setupAmmerChain()
+
         return true;
     }
     return false;
@@ -34,7 +36,7 @@ async function setupAmmerChain() {
                         {
                             chainName: 'Ammer Chain',
                             chainId: web3.utils.toHex(chainId),
-                            nativeCurrency: { name: 'Ammer Coin', decimals: 18, symbol: 'AMC' },
+                            nativeCurrency: { name: 'Ammer Coin', decimals: 18, symbol: 'AMR' },
                             rpcUrls: ['http://ammer.network:10002']
                         }
                     ]
