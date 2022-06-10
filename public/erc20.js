@@ -47,9 +47,7 @@ class ERC20 {
     deploy() {
         const coin = this
         return new Promise(async function (resolve, reject) {
-            setupAmmerChain()
-
-            const accounts = await web3.eth.getAccounts();
+            const accounts = await window.web3.eth.getAccounts();
             coin.contract = new window.web3.eth.Contract(coin.interface)
             coin.contract
                 .deploy({ data: coin.bytecode })
@@ -98,8 +96,6 @@ class ERC20 {
 }
 
 async function loadERC20(address) {
-    setupAmmerChain()
-
     var request = new XMLHttpRequest();
     request.open('GET', 'coin.json', false);
     request.send(null);

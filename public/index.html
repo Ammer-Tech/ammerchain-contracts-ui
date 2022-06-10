@@ -68,15 +68,12 @@
                     </div>
                 </div>
 
-                <button id="deploy" type="submit" class="btn btn-primary">
-                    Deploy Contract
+                <button id="deploy" type="submit" class="btn btn-dark">
+                    Deploy
                 </button>
             </div>
 
-            <hr>
-
             <div id="deployedCoins">
-
             </div>
         </div>
 
@@ -89,7 +86,7 @@
                             manage)</label>
                         <div class="input-group">
                             <input id="loadAddress" type="text" placeholder="0x000000" class="form-control" />
-                            <button id="load" class="btn btn-primary" type="button">
+                            <button id="load" class="btn btn-dark" type="button">
                                 Load
                             </button>
                         </div>
@@ -102,9 +99,7 @@
                 </div>
             </div>
 
-            <hr>
-
-            <div id="loadedCoin" class="mt-4" action="">
+            <div id="loadedCoin">
 
             </div>
         </div>
@@ -112,8 +107,8 @@
         <footer class="pt-3">
             <hr />
             <p>
-                Made with 💛 by <a href="https://ammer.tech">Ammer.Tech</a>. <br />
-                <span class="text-muted">Check out <a href="https://ammer.network">Ammer Chain</a> ;)</span>
+                Made with 💛 by <a href="https://ammer.tech">Ammer.Tech</a> <br />
+                <span class="text-muted">Check out <a href="https://ammer.network">Ammer Chain</a></span>
             </p>
         </footer>
     </main>
@@ -129,7 +124,8 @@
         document.getElementById("deploy").addEventListener(
             "click",
             async (e) => {
-                if (connected()) {
+                let metamask = await connected();
+                if (metamask) {
                     let coin = new ERC20(
                         document.getElementById("name").value,
                         document.getElementById("symbol").value,
@@ -140,11 +136,12 @@
                     await coin.compile();
                     await coin.deploy().then((deployed) => {
                         let element = `
+                        <hr>
                         <div class="p-1">
                             <label for="a${deployed.address}" class="form-label">Deployed: <code>${deployed.name}</code></label>
                             <div class="input-group">
                                 <input id="a${deployed.address}" type="text" readonly value="${deployed.address}" class="form-control" />
-                                <button class="btn btn-primary" type="button" data-clipboard-target="#a${deployed.address}">
+                                <button class="btn btn-dark" type="button" data-clipboard-target="#a${deployed.address}">
                                     Copy
                                 </button>
                             </div>
@@ -167,11 +164,13 @@
         document.getElementById("load").addEventListener(
             "click",
             async (e) => {
-                if (connected()) {
+                let metamask = await connected();
+                if (metamask) {
                     loaded = await loadERC20(document.getElementById("loadAddress").value);
 
                     let element = `
-                    <h3 class="fs-4">
+                    <hr>
+                    <h3 class="mt-4 fs-4">
                         ${loaded.name} (${loaded.symbol})
                     </h3>
                     <p>
@@ -182,7 +181,7 @@
                         <label for="exampleInputEmail1" class="form-label">Update Logo (in Trustody)</label>
                         <div class="input-group">
                             <input type="text" placeholder="0x000000" class="form-control" />
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-dark" type="button">
                                 Update
                             </button>
                         </div>
@@ -192,7 +191,7 @@
                             manage coin)</label>
                         <div class="input-group">
                             <input id="transferAddress" type="text" placeholder="0x000000" class="form-control" />
-                            <button id="transferButton" class="btn btn-primary" type="button">
+                            <button id="transferButton" class="btn btn-dark" type="button">
                                 Transfer
                             </button>
                         </div>
@@ -201,7 +200,7 @@
                         <label for="exampleInputEmail1" class="form-label">Mint Coins (to your address)</label>
                         <div class="input-group">
                             <input id="mintAmount" type="number" placeholder="1000" class="form-control" />
-                            <button id="mintButton" class="btn btn-primary" type="button">
+                            <button id="mintButton" class="btn btn-dark" type="button">
                                 Mint
                             </button>
                         </div>
@@ -211,7 +210,7 @@
                             address)</label>
                         <div class="input-group">
                             <input id="burnAmount" type="number" placeholder="1000" class="form-control" />
-                            <button id="burnButton" class="btn btn-primary" type="button">
+                            <button id="burnButton" class="btn btn-dark" type="button">
                                 Burn
                             </button>
                         </div>
@@ -224,30 +223,24 @@
                 document.getElementById("transferButton").addEventListener(
                     "click",
                     (e) => {
-                        if (connected()) {
-                            let address = document.getElementById("transferAddress").value;
-                            loaded.transferOwnership(address);
-                        }
+                        let address = document.getElementById("transferAddress").value;
+                        loaded.transferOwnership(address);
                     }
                 )
 
                 document.getElementById("mintButton").addEventListener(
                     "click",
                     (e) => {
-                        if (connected()) {
-                            let amount = document.getElementById("mintAmount").value;
-                            loaded.mint(amount);
-                        }
+                        let amount = document.getElementById("mintAmount").value;
+                        loaded.mint(amount);
                     }
                 )
 
                 document.getElementById("burnButton").addEventListener(
                     "click",
                     (e) => {
-                        if (connected()) {
-                            let amount = document.getElementById("burnAmount").value;
-                            loaded.burn(amount);
-                        }
+                        let amount = document.getElementById("burnAmount").value;
+                        loaded.burn(amount);
                     }
                 )
             }

@@ -1,16 +1,15 @@
 // connect to metamask
-const connected = () => {
+async function connected() {
     if (typeof web3 == "undefined") {
         alert(
             "You don't have Metamask extension in browser. Please install it and reload the page. You'll need to use a desktop computer."
         );
     }
     if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
-        window.ethereum.enable();
-        window.web3.currentProvider.enable()
+        window.web3 = await new Web3(window.web3.currentProvider);
+        await window.web3.currentProvider.enable()
 
-        setupAmmerChain()
+        await setupAmmerChain()
 
         return true;
     }
