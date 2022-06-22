@@ -1,9 +1,11 @@
 {
-  "name": "coin-deployer",
+  "name": "ac-contracts-manager",
   "version": "1.0.0",
-  "description": "Single-file website ERC20 coin smart contracts manager",
+  "description": "Ammer Chain Smart Contracts Manager",
   "main": "server.js",
   "scripts": {
+    "prod": "sudo pm2 start server.js --watch",
+    "dev": "nodemon -L .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
@@ -12,7 +14,16 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
     "node-fetch": "^3.2.5",
-    "solc": "0.5.16"
+    "solc": "^0.8.15",
+    "ssh2-sftp-client": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-promise": "^6.0.0"
   }
 }
