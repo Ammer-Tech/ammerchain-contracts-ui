@@ -47,6 +47,7 @@ app.post('/compile', (req, res) => {
       import: findImports
     })
   )
+  console.log(output)
   console.log(JSON.stringify(output.contracts['contract.sol'].Token.abi))
   res.json({
     bytecode: output.contracts['contract.sol'].Token.evm.bytecode.object,
@@ -105,7 +106,7 @@ app.post('/upload', (req, res) => {
       return sftp.exists('/media/' + req.body.dir)
     })
     .then((exists) => {
-      if (exists === 'd') {
+      if (exists !== 'd') {
         return sftp.mkdir('/media/' + req.body.dir)
       }
     })

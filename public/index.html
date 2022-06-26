@@ -83,9 +83,9 @@
                     <div id="manage">
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label for="exampleInputPassword1" class="form-label">Address of ERC20 Coin (which you
+                                <label for="exampleInputPassword1" class="form-label">Address of ERC20 Coin you
                                     want to
-                                    manage)</label>
+                                    manage</label>
                                 <div class="input-group">
                                     <input id="loadAddress" type="text"
                                         placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
@@ -132,10 +132,9 @@
                     <div id="manage">
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label for="exampleInputPassword1" class="form-label">Address of ERC721 NFT Collection
-                                    (which you
+                                <label for="exampleInputPassword1" class="form-label">Address of ERC721 NFT Collection you
                                     want to
-                                    manage)</label>
+                                    manage</label>
                                 <div class="input-group">
                                     <input id="loadAddressNFT" type="text"
                                         placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
@@ -148,119 +147,6 @@
                     </div>
 
                     <div id="loadedNFT">
-                        <hr>
-                        <h3 class="mt-4 fs-4">
-                            Test Collection (TSTC)
-                        </h3>
-                        <p>
-                            <span class="badge rounded-pill text-bg-light"><a
-                                    href="https://ammer.network/address/${loadedNFT.owner}">0x000000000000000000000000</a>
-                                owner</span>
-                            <span class="badge rounded-pill text-bg-light">1000 supply</span>
-                        </p>
-                        <div class="my-2">
-                            <button onclick="saveToTrustody(loaded.address, 'prod');"
-                                class="btn btn-sm btn-danger m-1">Save to Trustody <b>Prod</b></button>
-                            <button onclick="saveToTrustody(loaded.address, 'prod');"
-                                class="btn btn-sm btn-success m-1">Save to Trustody <b>Demo</b></button>
-                        </div>
-                        <div class="my-3 pb-3">
-                            <label for="exampleInputEmail1" class="form-label">Transfer Ownership to address (it will be
-                                able to
-                                manage collection)</label>
-                            <div class="input-group">
-                                <input id="transferAddress" type="text"
-                                    placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
-                                <button id="transferButton" class="btn btn-dark" type="button">
-                                    Transfer
-                                </button>
-                            </div>
-                        </div>
-
-                        <form id="newToken" class="card p-3 bg-light">
-                            <h3 class="pb-2 fs-4">Mint new token (to collection)</h3>
-                            <div>
-                                <div class="row">
-                                    <div class="mb-3 col">
-                                        <label for="exampleInputEmail1" class="form-label">Name</label>
-                                        <input id="nftName" placeholder="Davos 2022 Vase" type="text"
-                                            class="form-control" />
-                                    </div>
-                                    <div class="mb-3 col">
-                                        <label for="nftImage" class="form-label">Image</label>
-                                        <input type="file" id="nftImage" required class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="nftDescription" class="form-label">Description</label>
-                                    <div class="">
-                                        <textarea id="nftDescription" class="form-control"
-                                            placeholder="The ancient vase #0 of Davos 2022 Collection"></textarea>
-                                    </div>
-                                </div>
-                                <button id="deployNFT" type="submit" class="btn btn-dark">
-                                    Mint
-                                </button>
-                            </div>
-                        </form>
-
-                        <div id="tokens" class="mt-3"
-                            style="display: flex; flex-wrap: wrap; max-width: 100%; justify-content: space-between;padding: 10px 0;">
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                            <div style="margin-right: 10px; width: 30% !important;" class="card p-2 my-2">
-                                <p class="my-2 fw-bold"><a href="#">Ammer Fall</a></p>
-                                <a class="my-2" href="https://static.trustody.io/public/media/issuers/19.png"><img
-                                        style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
-                                        src="https://static.trustody.io/public/media/issuers/19.png" loading="lazy">
-                                </a>
-                                <button class="my-2 btn btn-sm btn-dark">Send</button>
-                                <!-- TODO: 'Edit' button to update photo or text (name, description) of the token -->
-                            </div>
-                        </div>
 
                     </div>
                 </div>

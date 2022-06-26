@@ -1,5 +1,5 @@
 {
-  "name": "ac-contracts-manager",
+  "name": "ammerchain-contracts-manager",
   "version": "1.0.0",
   "description": "Ammer Chain Smart Contracts Manager",
   "main": "server.js",
