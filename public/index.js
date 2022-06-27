@@ -244,10 +244,10 @@ document.getElementById('loadNFT').addEventListener(
           const file = document.getElementById('newToken').querySelector('input[type="file"]').files[0]
           const metadata = {
             name: document.getElementById('tokenName').value,
-            image: `https://static.trustody.io/public/media/nft/${loadedNFT.name.toLowerCase().replace(/\s/g, '')}/${index + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
+            image: `https://static.trustody.io/public/media/nft/${loadedNFT.symbol.toLowerCase().replace(/\s/g, '')}/${index + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
             description: document.getElementById('tokenDescription').value
           }
-          loadedNFT.saveSubTokenFiles(index, file, metadata)
+          await loadedNFT.saveSubTokenFiles(index, file, metadata)
 
           const elem = await loadedNFT.buildSubToken(index)
           document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + elem
@@ -274,8 +274,7 @@ document.getElementById('loadNFT').addEventListener(
 // eslint-disable-next-line no-unused-vars
 async function sendNFT (i) {
   const address = prompt('Paste address of the recipient')
-  console.log(web3.utils.toChecksumAddress(address))
-  loadedNFT.send(address, i)
+  loadedNFT.send(web3.utils.toChecksumAddress(address), i)
     .on('receipt', (receipt) => {
       alert(` #${i} sent successfully!`)
     })

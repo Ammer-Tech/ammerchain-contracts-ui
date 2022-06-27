@@ -4,7 +4,7 @@
 class ERC721 {
   constructor (name, symbol) {
     this.name = name || ''
-    this.symbol = symbol
+    this.symbol = symbol || ''
 
     const request = new XMLHttpRequest()
     request.open('GET', '/contracts/erc721.sol', false)
@@ -15,7 +15,7 @@ class ERC721 {
     contract = contract.replace('{symbol}', symbol)
     contract = contract.replace(
       '{folder}',
-      this.name.toLowerCase().replace(/\s/g, '')
+      this.symbol.toLowerCase().replace(/\s/g, '')
     ) // set lower case and remove spaces from name
 
     this.code = contract
@@ -122,7 +122,7 @@ class ERC721 {
       const metadata = await res.json()
       const elem = `
     <div style="" class="nft-token card p-2 my-2">
-        <p class="my-2 fw-bold"><a href="${metadataURI}">${metadata.name}</a></p>
+        <p class="my-2 fw-bold">#${i} <a href="${metadataURI}">${metadata.name}</a></p>
         <a class="my-2" href="${metadata.image}"><img
                 style="height: auto;width: 100%; margin: 0 auto;object-fit: cover;"
                 src="${metadata.image}" loading="lazy">
@@ -147,7 +147,7 @@ class ERC721 {
     let data = new FormData()
     const metadataFile = new Blob([JSON.stringify(metadata)], { type: 'text/plain' })
     data.append('file', metadataFile)
-    data.append('dir', `nft/${this.name.toLowerCase().replace(/\s/g, '')}`)
+    data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index)
     fetch('/upload', {
       method: 'POST',
@@ -162,7 +162,7 @@ class ERC721 {
 
     data = new FormData()
     data.append('file', image)
-    data.append('dir', `nft/${this.name.toLowerCase().replace(/\s/g, '')}`)
+    data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index + 'token' + image.name.substring(image.name.length - 4, image.name.length))
     fetch('/upload', {
       method: 'POST',

@@ -106,7 +106,7 @@ app.post('/upload', (req, res) => {
       return sftp.exists('/media/' + req.body.dir)
     })
     .then((exists) => {
-      if (exists !== 'd') {
+      if (!exists) {
         return sftp.mkdir('/media/' + req.body.dir)
       }
     })
