@@ -41,6 +41,7 @@ document.getElementById('load').addEventListener(
   async (e) => {
     const metamask = await connected()
     if (metamask) {
+      const accounts = await window.web3.eth.getAccounts()
       loaded = await loadERC20(document.getElementById('loadAddress').value)
 
       const element = `
@@ -68,6 +69,8 @@ document.getElementById('load').addEventListener(
                             </div>
                         </form>
                     </div>
+                    ${loaded.owner === accounts[0]
+                    ? `
                     <div class="my-3">
                         <label for="exampleInputEmail1" class="form-label">Transfer Ownership of contract to address</label>
                         <div class="input-group">
@@ -97,6 +100,7 @@ document.getElementById('load').addEventListener(
                         </div>
                     </div>
                     `
+                    : ''}`
 
       document.getElementById('loadedCoin').innerHTML = element
     }
@@ -186,6 +190,8 @@ document.getElementById('loadNFT').addEventListener(
           <button onclick="saveToTrustody(${loadedNFT.address}, 'demo');"
               class="btn btn-sm btn-success m-1">Save to Trustody <b>Demo</b></button>
       </div>
+      ${loaded.owner === accounts[0]
+      ? `
       <div class="my-3 pb-3">
           <label for="exampleInputEmail1" class="form-label">Transfer Ownership to address (it will be
               able to
@@ -225,6 +231,8 @@ document.getElementById('loadNFT').addEventListener(
               </button>
           </div>
       </form>
+      `
+      : ''}
 
       <div id="tokens" class="mt-3">
 
@@ -236,6 +244,8 @@ document.getElementById('loadNFT').addEventListener(
         'submit',
         async (e) => {
           e.preventDefault()
+
+          // TODO: Check if backend is available and block minting
 
           const index = await loadedNFT.mint()
           if (index === null) return
