@@ -172,6 +172,7 @@ document.getElementById('loadNFT').addEventListener(
   async (e) => {
     const metamask = await connected()
     if (metamask) {
+      const accounts = await window.web3.eth.getAccounts()
       loadedNFT = await loadERC721(document.getElementById('loadAddressNFT').value)
 
       const element = `
@@ -190,7 +191,7 @@ document.getElementById('loadNFT').addEventListener(
           <button onclick="saveToTrustody(${loadedNFT.address}, 'demo');"
               class="btn btn-sm btn-success m-1">Save to Trustody <b>Demo</b></button>
       </div>
-      ${loaded.owner === accounts[0]
+      ${loadedNFT.owner === accounts[0]
       ? `
       <div class="my-3 pb-3">
           <label for="exampleInputEmail1" class="form-label">Transfer Ownership to address (it will be
@@ -240,6 +241,13 @@ document.getElementById('loadNFT').addEventListener(
       `
       document.getElementById('loadedNFT').innerHTML = element
 
+      document.getElementById('tokens').innerHTML = ''
+      for (let i = 0; i < Infinity; i++) {
+        const html = await loadedNFT.buildSubToken(i)
+        if (html === 'error') return alert('All NFTs in collection\'re loaded')
+        document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + html
+      }
+
       document.getElementById('newToken').addEventListener(
         'submit',
         async (e) => {
@@ -263,13 +271,6 @@ document.getElementById('loadNFT').addEventListener(
           document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + elem
         }
       )
-
-      document.getElementById('tokens').innerHTML = ''
-      for (let i = 0; i < Infinity; i++) {
-        const html = await loadedNFT.buildSubToken(i)
-        if (html === 'error') return alert('All NFTs in collection\'re loaded')
-        document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + html
-      }
     }
 
     document.getElementById('transferOwnershipButtonNFT').addEventListener(
