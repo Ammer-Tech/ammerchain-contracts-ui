@@ -3,7 +3,7 @@
     max-width: 600px;
 }
 
-#tokens {
+.tokens-grid {
     display: flex;
     flex-wrap: wrap;
     max-width: 100%;

@@ -17,42 +17,46 @@
         <header class="pb-3">
             <h1>Smart Contracts Manager</h1>
             <p>
-                On this page you can deploy & manage ERC20 coin or ERC721 NFT collection on Ammer Chain. You can save
-                these assets to Trustody also.
+                On this page you can deploy & manage ERC20 coin or ERC721/1155 NFT collection on Ammer Blockchain. You can
+                register these assets in Trustody right away.
             </p>
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Coins</button>
+                    <button class="nav-link active" id="erc20-tab" data-bs-toggle="tab" data-bs-target="#erc20-tab-pane"
+                        type="button" role="tab" aria-controls="erc20-tab-pane" aria-selected="true">ERC20</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">NFTs</button>
+                    <button class="nav-link" id="erc721-tab" data-bs-toggle="tab" data-bs-target="#erc721-tab-pane"
+                        type="button" role="tab" aria-controls="erc721-tab-pane" aria-selected="false">ERC721</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="erc1155-tab" data-bs-toggle="tab" data-bs-target="#erc1155-tab-pane"
+                        type="button" role="tab" aria-controls="erc1155-tab-pane" aria-selected="false">ERC1155</button>
                 </li>
             </ul>
         </header>
 
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            <div class="tab-pane fade show active" id="erc20-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                 tabindex="0">
 
                 <div class="card p-3 my-4 mx-4">
-                    <h2 class="pb-2">Deploy Coin</h2>
+                    <h2 class="pb-2">Deploy ERC20 Coin</h2>
                     <div>
                         <div class="row">
                             <div class="mb-3 col">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                                <label class="form-label">Name</label>
                                 <input id="name" placeholder="Ammer Coin" type="text" class="form-control" />
                             </div>
                             <div class="mb-3 col">
-                                <label for="exampleInputPassword1" class="form-label">Symbol</label>
+                                <label class="form-label">Symbol</label>
                                 <input id="symbol" placeholder="AMR" type="text" class="form-control" />
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label for="exampleInputPassword1" class="form-label">Initial Supply (will be sent to
+                                <label class="form-label">Initial Supply (will be sent to
                                     deployer's
                                     address)</label>
                                 <input id="emission" placeholder="100000" type="number" class="form-control" />
@@ -83,7 +87,7 @@
                     <div id="manage">
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label for="exampleInputPassword1" class="form-label">Address of ERC20 Coin you
+                                <label class="form-label">Address of ERC20 Coin you
                                     want to
                                     manage</label>
                                 <div class="input-group">
@@ -103,18 +107,19 @@
                 </div>
 
             </div>
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+
+            <div class="tab-pane fade" id="erc721-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="card p-3 my-4 mx-4">
-                    <h2 class="pb-2">Deploy NFT Collection</h2>
+                    <h2 class="pb-2">Deploy ERC721 Collection</h2>
                     <div>
                         <div class="row">
                             <div class="mb-3 col">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                                <label class="form-label">Name</label>
                                 <input id="nftName" placeholder="Davos 2022 Collection" type="text"
                                     class="form-control" />
                             </div>
                             <div class="mb-3 col">
-                                <label for="exampleInputPassword1" class="form-label">Symbol</label>
+                                <label class="form-label">Symbol</label>
                                 <input id="nftSymbol" placeholder="DAVOS2022" type="text" class="form-control" />
                             </div>
                         </div>
@@ -132,7 +137,7 @@
                     <div id="manage">
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label for="exampleInputPassword1" class="form-label">Address of ERC721 NFT Collection you
+                                <label class="form-label">Address of ERC721 NFT Collection you
                                     want to
                                     manage</label>
                                 <div class="input-group">
@@ -151,13 +156,57 @@
                     </div>
                 </div>
             </div>
+
+            <div class="tab-pane fade" id="erc1155-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="card p-3 my-4 mx-4">
+                    <h2 class="pb-2">Deploy ERC1155 Collection</h2>
+                    <div>
+                        <div class="row">
+                            <div class="mb-3 col">
+                                <label class="form-label">Symbol</label>
+                                <input id="nftSymbol1155" placeholder="DAVOS2022" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <button id="deployNFT1155" type="submit" class="btn btn-dark">
+                            Deploy
+                        </button>
+                    </div>
+
+                    <div id="deployedNFTs1155">
+                    </div>
+                </div>
+
+                <div class="card p-3 my-4 mx-4 mt-5">
+                    <h2 class="pb-2">Manage NFT Collection</h2>
+                    <div id="manage">
+                        <div class="mb-3 row">
+                            <div class="px-3">
+                                <label class="form-label">Address of ERC721 NFT Collection you
+                                    want to
+                                    manage</label>
+                                <div class="input-group">
+                                    <input id="loadAddressNFT1155" type="text"
+                                        placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
+                                    <button id="loadNFT1155" class="btn btn-dark" type="button">
+                                        Load
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="loadedNFT1155">
+
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer class="pt-1">
             <hr />
             <p>
                 Made with 💛 by <a href="https://ammer.tech">Ammer.Tech</a> <br />
-                <span class="text-muted">Check out <a href="https://ammer.network">Ammer Chain</a></span>
+                <span class="text-muted">Check out <a href="https://ammer.network">Ammer Blockchain</a></span>
             </p>
         </footer>
     </main>
@@ -173,6 +222,7 @@
     <script src="metamask.js"></script>
     <script src="erc20.js"></script>
     <script src="erc721.js"></script>
+    <script src="erc1155.js"></script>
     <script src="trustody.js"></script>
     <script src="index.js"></script>
 </body>

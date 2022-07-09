@@ -40,7 +40,7 @@ async function setupAmmerChain () {
               chainName: 'Ammer Chain',
               chainId: web3.utils.toHex(chainId),
               nativeCurrency: { name: 'Ammer Coin', decimals: 18, symbol: 'AMR' },
-              rpcUrls: ['http://ammer.network:10002']
+              rpcUrls: ['http://134.119.186.86:10002']
             }
           ]
         })

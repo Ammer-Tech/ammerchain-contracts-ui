@@ -47,8 +47,8 @@ app.post('/compile', (req, res) => {
       import: findImports
     })
   )
-  console.log(output)
-  console.log(JSON.stringify(output.contracts['contract.sol'].Token.abi))
+  // console.log(output)
+  // console.log(JSON.stringify(output.contracts['contract.sol'].Token.abi))
   res.json({
     bytecode: output.contracts['contract.sol'].Token.evm.bytecode.object,
     interface: output.contracts['contract.sol'].Token.abi
