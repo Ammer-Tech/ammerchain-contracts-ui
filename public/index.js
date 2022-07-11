@@ -206,27 +206,6 @@ document.getElementById('loadNFT').addEventListener(
           </div>
       </div>
 
-      <div class="my-3 pb-3">
-          <label  class="form-label">Burn tokens</label>
-          <div class="input-group">
-              <div class="row">
-                <div class="mb-3 col">
-                  <label class="form-label">Token ID to burn</label>
-                  <input id="burnNFTId1155" type="number"
-                  placeholder="0" class="form-control" />
-                </div>
-                <div class="mb-3 col">
-                  <label class="form-label">Amount of tokens to burn</label>
-                  <input id="burnNFTAmount1155" type="number"
-                  placeholder="0" class="form-control" />
-                </div>
-              </div>
-              <button id="burnButtonNFT1155" class="btn btn-dark" type="button">
-                  Burn
-              </button>
-          </div>
-      </div>
-
       <form id="newToken" class="card p-3 bg-light">
           <h3 class="pb-2 fs-4">Mint new token (to collection)</h3>
           <div>
@@ -352,7 +331,7 @@ document.getElementById('loadNFT1155').addEventListener(
     const metamask = await connected()
     if (metamask) {
       const accounts = await window.web3.eth.getAccounts()
-      loadedNFT1155 = await loadERC1155(document.getElementById('loadAddressNFT1155').value)
+      loadedNFT1155 = await loadERC1155(document.getElementById('loadAddressNFT1155').value, document.getElementById('tokenSymbol1155').value)
 
       const element = `
       <hr>
@@ -385,12 +364,28 @@ document.getElementById('loadNFT1155').addEventListener(
           </div>
       </div>
 
+      <div class="my-3 pb-3">
+          <p class="fw-bold">Burn tokens</p>
+          <div class="input-group">
+              <div class="row">
+                  <div class="mb-3 col">
+                      <label class="form-label">Token ID</label>
+                      <input id="burnNFTId1155" type="number" placeholder="0" class="form-control" />
+                  </div>
+                  <div class="mb-3 col">
+                      <label class="form-label">Amount of tokens</label>
+                      <input id="burnNFTAmount1155" type="number" placeholder="0" class="form-control" />
+                  </div>
+              </div>
+          </div>
+          <button id="burnButtonNFT1155" class="btn btn-dark" type="button">
+            Burn
+          </button>
+      </div>
+
       <form id="newToken1155" class="card p-3 bg-light">
           <h3 class="pb-2 fs-4">Mint (update) token</h3>
           <div>
-              <label for="tokenSymbol1155" class="form-label">Symbol (it must be the same as you entered while collection deployment!)</label>
-              <input id="tokenSymbol1155" required placeholder="DAVOS2022" type="text"
-                  class="form-control" />
               <div class="row">
                   <div class="mb-3 col">
                       <label for="tokenId1155" class="form-label">Id</label>
@@ -434,15 +429,20 @@ document.getElementById('loadNFT1155').addEventListener(
       </div>
       `
       document.getElementById('loadedNFT1155').innerHTML = element
+
+      document.getElementById('burnButtonNFT1155').addEventListener(
+        'click',
+        (e) => {
+          const burnNFTId = document.getElementById('burnNFTId1155').value
+          const burnNFTAmount = document.getElementById('burnNFTAmount1155').value
+          loadedNFT1155.burn(burnNFTId, burnNFTAmount)
+        })
     }
 
     document.getElementById('newToken1155').addEventListener(
       'submit',
       async (e) => {
         e.preventDefault()
-
-        const symbol = document.getElementById('tokenSymbol1155').value
-        loadedNFT1155.symbol = symbol
 
         const id = document.getElementById('tokenId1155').value
         let amount = document.getElementById('tokenAmount1155').value
@@ -454,7 +454,7 @@ document.getElementById('loadNFT1155').addEventListener(
         const file = document.getElementById('newToken1155').querySelector('input[type="file"]').files[0]
         const metadata = {
           name: document.getElementById('tokenName1155').value,
-          image: `https://static.trustody.io/public/media/nft/${symbol.toLowerCase().replace(/\s/g, '')}/${id + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
+          image: `https://static.trustody.io/public/media/nft/${loadedNFT1155.symbol.toLowerCase().replace(/\s/g, '')}/${id + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
           description: document.getElementById('tokenDescription1155').value
         }
         await loadedNFT1155.saveSubTokenFiles(id, file, metadata)

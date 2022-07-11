@@ -1,24 +1,14 @@
 module.exports = {
-  apps: [{
-    name: 'ac-contracts-manager',
-    script: 'server.js',
-    watch: '.',
-    env_production: {
-      NODE_ENV: 'production'
+  apps: [
+    {
+      name: 'ammerchain-contracts-manager',
+      script: 'server.js',
+      watch: '.'
     },
-    env_development: {
-      NODE_ENV: 'development'
+    {
+      name: 'contracts2assets-api',
+      script: '../contrats2assets-api/main.py',
+      watch: ['../contrats2assets-api']
     }
-  }, {
-    UVICORN
-    name: 'nft-api-server',
-    script: '../nft-api/server.py',
-    watch: ['../nft-api'],
-    env_production: {
-      NODE_ENV: 'production'
-    },
-    env_development: {
-      NODE_ENV: 'development'
-    }
-  }]
+  ]
 }

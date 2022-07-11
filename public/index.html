@@ -17,7 +17,8 @@
         <header class="pb-3">
             <h1>Smart Contracts Manager</h1>
             <p>
-                On this page you can deploy & manage ERC20 coin or ERC721/1155 NFT collection on Ammer Blockchain. You can
+                On this page you can deploy & manage ERC20 coin or ERC721/1155 NFT collection on Ammer Blockchain. You
+                can
                 register these assets in Trustody right away.
             </p>
 
@@ -181,16 +182,25 @@
                     <div id="manage">
                         <div class="mb-3 row">
                             <div class="px-3">
-                                <label class="form-label">Address of ERC721 NFT Collection you
-                                    want to
-                                    manage</label>
-                                <div class="input-group">
-                                    <input id="loadAddressNFT1155" type="text"
-                                        placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
-                                    <button id="loadNFT1155" class="btn btn-dark" type="button">
-                                        Load
-                                    </button>
+                                <div class="row">
+                                    <div class="col">
+                                        <label class="form-label">Address of ERC721 NFT Collection you
+                                            want to
+                                            manage</label>
+                                        <input id="loadAddressNFT1155" type="text"
+                                            placeholder="0x0000000000000000000000000000000000000000" class="form-control" />
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="tokenSymbol1155" class="form-label">Symbol (same you
+                                            entered while deployment)</label>
+                                        <input id="tokenSymbol1155" required placeholder="DAVOS2022" type="text"
+                                            class="form-control" />
+                                    </div>
                                 </div>
+                                <button id="loadNFT1155" class="mt-3 btn btn-dark" type="button">
+                                    Load
+                                </button>
                             </div>
                         </div>
                     </div>

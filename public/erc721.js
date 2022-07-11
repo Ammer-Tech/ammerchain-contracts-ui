@@ -149,7 +149,7 @@ class ERC721 {
     data.append('file', metadataFile)
     data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index)
-    fetch('/upload', {
+    await fetch('/upload', {
       method: 'POST',
       body: data
     }).then(response => {
@@ -164,7 +164,7 @@ class ERC721 {
     data.append('file', image)
     data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index + 'token' + image.name.substring(image.name.length - 4, image.name.length))
-    fetch('/upload', {
+    await fetch('/upload', {
       method: 'POST',
       body: data
     }).then(response => {

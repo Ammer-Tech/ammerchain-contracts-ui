@@ -79,6 +79,13 @@ class ERC1155 {
     })
   }
 
+  burn (id, amount) {
+    const contract = new window.web3.eth.Contract(this.interface, this.address)
+    return contract.methods
+      .burn(this.owner, id, amount)
+      .send({ from: this.owner })
+  }
+
   getOwner () {
     const contract = new window.web3.eth.Contract(this.interface, this.address)
     return contract.methods.owner().call()
@@ -145,7 +152,7 @@ class ERC1155 {
     data.append('file', metadataFile)
     data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index + '.json')
-    fetch('/upload', {
+    await fetch('/upload', {
       method: 'POST',
       body: data
     }).then(response => {
@@ -160,7 +167,7 @@ class ERC1155 {
     data.append('file', image)
     data.append('dir', `nft/${this.symbol.toLowerCase().replace(/\s/g, '')}`)
     data.append('name', index + 'token' + image.name.substring(image.name.length - 4, image.name.length))
-    fetch('/upload', {
+    await fetch('/upload', {
       method: 'POST',
       body: data
     }).then(response => {
@@ -173,7 +180,7 @@ class ERC1155 {
   }
 }
 
-async function loadERC1155 (address) {
+async function loadERC1155 (address, symbol) {
   const request = new XMLHttpRequest()
   request.open('GET', '/contracts/erc1155.json', false)
   request.send(null)
@@ -184,6 +191,7 @@ async function loadERC1155 (address) {
 
   nft.address = address
   nft.owner = await nft.getOwner()
+  nft.symbol = symbol
 
   return nft
 }
