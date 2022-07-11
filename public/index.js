@@ -435,7 +435,7 @@ document.getElementById('loadNFT1155').addEventListener(
         (e) => {
           const burnNFTId = document.getElementById('burnNFTId1155').value
           const burnNFTAmount = document.getElementById('burnNFTAmount1155').value
-          loadedNFT1155.burn(burnNFTId, burnNFTAmount)
+          loadedNFT1155.burn(burnNFTId, window.web3.utils.toWei(burnNFTAmount))
         })
     }
 
