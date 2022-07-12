@@ -435,7 +435,7 @@ document.getElementById('loadNFT1155').addEventListener(
         (e) => {
           const burnNFTId = document.getElementById('burnNFTId1155').value
           const burnNFTAmount = document.getElementById('burnNFTAmount1155').value
-          loadedNFT1155.burn(burnNFTId, window.web3.utils.toWei(burnNFTAmount))
+          loadedNFT1155.burn(burnNFTId, burnNFTAmount)
         })
     }
 
@@ -445,8 +445,7 @@ document.getElementById('loadNFT1155').addEventListener(
         e.preventDefault()
 
         const id = document.getElementById('tokenId1155').value
-        let amount = document.getElementById('tokenAmount1155').value
-        amount = window.web3.utils.toWei(amount)
+        const amount = document.getElementById('tokenAmount1155').value
 
         const success = await loadedNFT1155.mint(id, amount)
         if (!success) return alert('Failed to mint token on blockchain')
@@ -483,8 +482,7 @@ document.getElementById('loadNFT1155').addEventListener(
 // eslint-disable-next-line no-unused-vars
 async function sendNFT1155 (i) {
   const address = prompt('Paste address of the recipient')
-  let amount = prompt('Enter amount of tokens to send')
-  amount = window.web3.utils.toWei(amount)
+  const amount = prompt('Enter amount of tokens to send')
   loadedNFT1155.send(web3.utils.toChecksumAddress(address), i, amount)
     .on('receipt', (receipt) => {
       alert(` #${i} sent successfully!`)

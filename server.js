@@ -16,6 +16,11 @@ app.use(express.json())
 app.use('/', express.static('public'))
 app.use(fileUpload())
 
+app.use((req, res, next) => {
+  // TODO: auth
+  next()
+})
+
 app.post('/compile', (req, res) => {
   const findImports = (path) => {
     const baseDir = './public/contracts/'
@@ -124,6 +129,11 @@ app.post('/upload', (req, res) => {
       console.log(err.message)
       return res.status(500).send(err.message)
     })
+})
+
+// Upload images and token metadata to static.trustody.io
+app.post('/faucet', (req, res) => {
+  // TODO + TEST COIN
 })
 
 app.listen(8080, () => {

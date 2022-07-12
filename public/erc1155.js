@@ -113,7 +113,6 @@ class ERC1155 {
       console.log(metadataURI)
       balance = await this.getSubtokenBalance(i, accounts[0])
       console.log(balance)
-      balance = window.web3.utils.fromWei(balance)
     } catch (e) {
       return 'error'
     }
