@@ -5,6 +5,7 @@ import 'dotenv/config'
 import * as fs from 'fs'
 import Client from 'ssh2-sftp-client'
 import fileUpload from 'express-fileupload'
+import basicAuth from 'express-basic-auth'
 
 const app = express()
 app.use(
@@ -13,13 +14,13 @@ app.use(
   })
 )
 app.use(express.json())
+app.use('/*', basicAuth({
+  users: { admin: process.env.SERVICE_PASSWORD },
+  challenge: true,
+  realm: 'Imb4T3st4pp'
+}))
 app.use('/', express.static('public'))
 app.use(fileUpload())
-
-app.use((req, res, next) => {
-  // TODO: auth
-  next()
-})
 
 app.post('/compile', (req, res) => {
   const findImports = (path) => {
