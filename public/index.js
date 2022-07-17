@@ -40,8 +40,8 @@ document.getElementById('load').addEventListener(
   'click',
   async (e) => {
     const metamask = await connected()
+    const accounts = await window.web3.eth.getAccounts()
     if (metamask) {
-      const accounts = await window.web3.eth.getAccounts()
       loaded = await loadERC20(document.getElementById('loadAddress').value)
 
       const element = `
@@ -171,8 +171,8 @@ document.getElementById('loadNFT').addEventListener(
   'click',
   async (e) => {
     const metamask = await connected()
+    const accounts = await window.web3.eth.getAccounts()
     if (metamask) {
-      const accounts = await window.web3.eth.getAccounts()
       loadedNFT = await loadERC721(document.getElementById('loadAddressNFT').value)
 
       const element = `
@@ -249,36 +249,38 @@ document.getElementById('loadNFT').addEventListener(
       document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + html
     }
 
-    document.getElementById('newToken').addEventListener(
-      'submit',
-      async (e) => {
-        e.preventDefault()
+    if (loadedNFT1155.owner === accounts[0]) {
+      document.getElementById('newToken').addEventListener(
+        'submit',
+        async (e) => {
+          e.preventDefault()
 
-        // TODO: Check if backend is available and block minting
+          // TODO: Check if backend is available and block minting
 
-        const index = await loadedNFT.mint()
-        if (index === null) return
-        console.log(index)
+          const index = await loadedNFT.mint()
+          if (index === null) return
+          console.log(index)
 
-        const file = document.getElementById('newToken').querySelector('input[type="file"]').files[0]
-        const metadata = {
-          name: document.getElementById('tokenName').value,
-          image: `https://static.trustody.io/public/media/nft/${loadedNFT.symbol.toLowerCase().replace(/\s/g, '')}/${index + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
-          description: document.getElementById('tokenDescription').value
+          const file = document.getElementById('newToken').querySelector('input[type="file"]').files[0]
+          const metadata = {
+            name: document.getElementById('tokenName').value,
+            image: `https://static.trustody.io/public/media/nft/${loadedNFT.symbol.toLowerCase().replace(/\s/g, '')}/${index + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
+            description: document.getElementById('tokenDescription').value
+          }
+          await loadedNFT.saveSubTokenFiles(index, file, metadata)
+
+          const elem = await loadedNFT.buildSubToken(index)
+          document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + elem
         }
-        await loadedNFT.saveSubTokenFiles(index, file, metadata)
+      )
 
-        const elem = await loadedNFT.buildSubToken(index)
-        document.getElementById('tokens').innerHTML = document.getElementById('tokens').innerHTML + elem
-      }
-    )
-
-    document.getElementById('transferOwnershipButtonNFT').addEventListener(
-      'click',
-      (e) => {
-        const address = document.getElementById('transferNFTAddress').value
-        loadedNFT.transferOwnership(address)
-      })
+      document.getElementById('transferOwnershipButtonNFT').addEventListener(
+        'click',
+        (e) => {
+          const address = document.getElementById('transferNFTAddress').value
+          loadedNFT.transferOwnership(address)
+        })
+    }
   }
 )
 
@@ -329,8 +331,8 @@ document.getElementById('loadNFT1155').addEventListener(
   'click',
   async (e) => {
     const metamask = await connected()
+    const accounts = await window.web3.eth.getAccounts()
     if (metamask) {
-      const accounts = await window.web3.eth.getAccounts()
       loadedNFT1155 = await loadERC1155(document.getElementById('loadAddressNFT1155').value, document.getElementById('tokenSymbol1155').value)
 
       const element = `
@@ -430,38 +432,42 @@ document.getElementById('loadNFT1155').addEventListener(
       `
       document.getElementById('loadedNFT1155').innerHTML = element
 
-      document.getElementById('burnButtonNFT1155').addEventListener(
-        'click',
-        (e) => {
-          const burnNFTId = document.getElementById('burnNFTId1155').value
-          const burnNFTAmount = document.getElementById('burnNFTAmount1155').value
-          loadedNFT1155.burn(burnNFTId, burnNFTAmount)
-        })
+      if (loadedNFT1155.owner === accounts[0]) {
+        document.getElementById('burnButtonNFT1155').addEventListener(
+          'click',
+          (e) => {
+            const burnNFTId = document.getElementById('burnNFTId1155').value
+            const burnNFTAmount = document.getElementById('burnNFTAmount1155').value
+            loadedNFT1155.burn(burnNFTId, burnNFTAmount)
+          })
+      }
     }
 
-    document.getElementById('newToken1155').addEventListener(
-      'submit',
-      async (e) => {
-        e.preventDefault()
+    if (loadedNFT1155.owner === accounts[0]) {
+      document.getElementById('newToken1155').addEventListener(
+        'submit',
+        async (e) => {
+          e.preventDefault()
 
-        const id = document.getElementById('tokenId1155').value
-        const amount = document.getElementById('tokenAmount1155').value
+          const id = document.getElementById('tokenId1155').value
+          const amount = document.getElementById('tokenAmount1155').value
 
-        const success = await loadedNFT1155.mint(id, amount)
-        if (!success) return alert('Failed to mint token on blockchain')
+          const success = await loadedNFT1155.mint(id, amount)
+          if (!success) return alert('Failed to mint token on blockchain')
 
-        const file = document.getElementById('newToken1155').querySelector('input[type="file"]').files[0]
-        const metadata = {
-          name: document.getElementById('tokenName1155').value,
-          image: `https://static.trustody.io/public/media/nft/${loadedNFT1155.symbol.toLowerCase().replace(/\s/g, '')}/${id + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
-          description: document.getElementById('tokenDescription1155').value
+          const file = document.getElementById('newToken1155').querySelector('input[type="file"]').files[0]
+          const metadata = {
+            name: document.getElementById('tokenName1155').value,
+            image: `https://static.trustody.io/public/media/nft/${loadedNFT1155.symbol.toLowerCase().replace(/\s/g, '')}/${id + 'token' + file.name.substring(file.name.length - 4, file.name.length)}`,
+            description: document.getElementById('tokenDescription1155').value
+          }
+          await loadedNFT1155.saveSubTokenFiles(id, file, metadata)
+
+          const elem = await loadedNFT1155.buildSubToken(id)
+          document.getElementById('tokens1155').innerHTML = document.getElementById('tokens1155').innerHTML + elem
         }
-        await loadedNFT1155.saveSubTokenFiles(id, file, metadata)
-
-        const elem = await loadedNFT1155.buildSubToken(id)
-        document.getElementById('tokens1155').innerHTML = document.getElementById('tokens1155').innerHTML + elem
-      }
-    )
+      )
+    }
 
     document.getElementById('tokens1155').innerHTML = ''
     for (let i = 0; i < Infinity; i++) {
@@ -470,12 +476,14 @@ document.getElementById('loadNFT1155').addEventListener(
       document.getElementById('tokens1155').innerHTML = document.getElementById('tokens1155').innerHTML + html
     }
 
-    document.getElementById('transferOwnershipButtonNFT1155').addEventListener(
-      'click',
-      (e) => {
-        const address = document.getElementById('transferNFTAddress1155').value
-        loadedNFT1155.transferOwnership(address)
-      })
+    if (loadedNFT1155.owner === accounts[0]) {
+      document.getElementById('transferOwnershipButtonNFT1155').addEventListener(
+        'click',
+        (e) => {
+          const address = document.getElementById('transferNFTAddress1155').value
+          loadedNFT1155.transferOwnership(address)
+        })
+    }
   }
 )
 

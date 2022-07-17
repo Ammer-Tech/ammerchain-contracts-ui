@@ -132,10 +132,31 @@ app.post('/upload', (req, res) => {
     })
 })
 
-// Upload images and token metadata to static.trustody.io
-app.post('/faucet', (req, res) => {
-  // TODO + TEST COIN
-})
+// Get assets available to get
+// app.get('/faucet', (req, res) => {
+//
+// })
+// Request asset from faucet
+// app.post('/faucet', (req, res) => {
+//   fetch(`http://127.0.0.1:8000/ammerchain/contract`,
+//   {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json;charset=utf-8'
+//     },
+//     body: JSON.stringify({
+//       address: req.body.contractAddress,
+//       publicKey: req.body.recipientAddress,
+//       quantity: req.body.amount
+//     })
+//   })
+//   .then((response) => {
+//     return response.json()
+//   })
+//   // .then((asset) => {
+
+//   // }
+// })
 
 app.listen(8080, () => {
   console.log('Server started at http://localhost:8080')
